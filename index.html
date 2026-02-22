@@ -3,335 +3,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atri Bhowmik | Professional English Skills</title>
+    <title>Atri Bhowmik | English Academy</title>
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome Icons -->
+    <!-- FontAwesome 6.4.0 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: { primary: '#2563eb' }
+                    colors: {
+                        primary: '#2563eb', // Soft Blue
+                        primaryHover: '#1d4ed8',
+                        secondary: '#f59e0b', // Warm Yellow
+                        secondaryHover: '#d97706',
+                        dark: '#1e293b',
+                        light: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    },
+                    borderRadius: {
+                        '3xl': '1.5rem',
+                    }
                 }
             }
         }
     </script>
-    
+
+    <!-- Custom CSS -->
     <style>
-        .view-section { display: none; animation: fadeIn 0.4s ease-in-out; }
-        .view-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            background-image: radial-gradient(circle at top right, #e0e7ff, transparent 40%),
+                              radial-gradient(circle at bottom left, #fef3c7, transparent 40%);
+            background-attachment: fixed;
+        }
         
-        .spinner {
-            border: 3px solid rgba(255,255,255,0.3);
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+
+        .view-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        .view-section.active {
+            display: block;
+            opacity: 1;
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Accessibility: Touch Targets */
+        button, a.touch-target, input, select, textarea {
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        /* Smooth Transitions */
+        .transition-all-smooth {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Loader */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #2563eb;
             border-radius: 50%;
-            border-top: 3px solid #fff;
             width: 20px;
             height: 20px;
             animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+<body class="text-slate-800 flex flex-col min-h-screen">
 
-    <!-- Global Loader -->
-    <div id="global-loader" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center transition-opacity duration-300">
-        <i class="fas fa-graduation-cap text-4xl text-blue-600 mb-4 animate-bounce"></i>
-        <div class="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
-        <p class="mt-4 text-slate-500 font-medium">Setting up your portal...</p>
-    </div>
-
-    <!-- Nav -->
-    <nav class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center cursor-pointer" onclick="navigate('home')">
-                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3 text-white">
-                        <i class="fas fa-book-reader"></i>
-                    </div>
-                    <span class="font-bold text-xl text-slate-900">Atri Bhowmik</span>
+    <!-- Navigation -->
+    <nav class="glass-card sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="app.navigate('landing')">
+                <div class="bg-primary text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-md">
+                    AB
                 </div>
-
-                <!-- Desktop -->
-                <div id="nav-desktop" class="hidden md:flex items-center space-x-6">
-                    <!-- Dynamic items via JS -->
-                </div>
-
-                <!-- Mobile Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-slate-600 text-2xl">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
+                <span class="font-bold text-xl tracking-tight text-dark hidden sm:block">Atri Bhowmik</span>
             </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-6 font-medium">
+                <button onclick="app.navigate('landing')" class="hover:text-primary transition-colors touch-target px-2">Home</button>
+                <button onclick="app.navigate('dashboard')" class="hover:text-primary transition-colors touch-target px-2 auth-required hidden">Dashboard</button>
+                <button onclick="app.navigate('auth')" class="bg-primary text-white px-6 py-2 rounded-full hover:bg-primaryHover transition-all-smooth shadow-md touch-target guest-only">Log In</button>
+                <button onclick="app.logout()" class="bg-slate-200 text-slate-700 px-6 py-2 rounded-full hover:bg-slate-300 transition-all-smooth shadow-sm touch-target auth-required hidden">Log Out</button>
+            </div>
+
+            <!-- Mobile Hamburger -->
+            <button id="mobile-menu-btn" class="md:hidden text-2xl text-dark touch-target flex items-center justify-center">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
-        <!-- Mobile Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-100 p-4 space-y-2 shadow-xl absolute w-full left-0"></div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden flex-col gap-4 mt-4 pb-4 border-t border-slate-200 pt-4 font-medium">
+            <button onclick="app.navigate('landing'); app.toggleMobileMenu()" class="text-left px-4 py-2 hover:bg-slate-100 rounded-lg touch-target">Home</button>
+            <button onclick="app.navigate('dashboard'); app.toggleMobileMenu()" class="text-left px-4 py-2 hover:bg-slate-100 rounded-lg touch-target auth-required hidden">Dashboard</button>
+            <button onclick="app.navigate('auth'); app.toggleMobileMenu()" class="text-left px-4 py-2 text-primary font-bold hover:bg-slate-100 rounded-lg touch-target guest-only">Log In / Sign Up</button>
+            <button onclick="app.logout(); app.toggleMobileMenu()" class="text-left px-4 py-2 text-red-600 font-bold hover:bg-slate-100 rounded-lg touch-target auth-required hidden">Log Out</button>
+        </div>
     </nav>
 
-    <main class="flex-grow">
-        <!-- VIEW: HOME -->
-        <div id="view-home" class="view-section active">
-            <section class="bg-gradient-to-b from-blue-50 to-white py-16 px-6 text-center">
-                <div class="max-w-4xl mx-auto">
-                    <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6">Unlock Your Child's <span class="text-blue-600">Global Potential</span></h1>
-                    <p class="text-lg text-slate-600 mb-10">Mastering English through real-time interaction and expert guidance by Atri Bhowmik.</p>
-                    <button onclick="navigate('auth')" class="px-10 py-4 bg-blue-600 text-white rounded-xl font-bold text-lg hover:shadow-lg transition-all">Get Started <i class="fas fa-arrow-right ml-2"></i></button>
-                </div>
-            </section>
+    <!-- Main Content Area -->
+    <main class="flex-grow w-full max-w-6xl mx-auto px-4 sm:px-6 py-8">
 
-            <!-- About Sections -->
-            <section class="py-16 px-6 max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-                    <i class="fas fa-language text-3xl text-blue-600 mb-4"></i>
-                    <h3 class="font-bold text-xl mb-2">Comprehensive Learning</h3>
-                    <p class="text-slate-600">Grammar, vocabulary, and sentence structure taught through fun, engaging activities.</p>
-                </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-                    <i class="fas fa-microphone-alt text-3xl text-blue-600 mb-4"></i>
-                    <h3 class="font-bold text-xl mb-2">Speaking Fluency</h3>
-                    <p class="text-slate-600">Confidence-building exercises to speak naturally and clearly.</p>
-                </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-                    <i class="fas fa-globe-americas text-3xl text-blue-600 mb-4"></i>
-                    <h3 class="font-bold text-xl mb-2">Practical Interaction</h3>
-                    <p class="text-slate-600">Preparing children for real-time global standard communication.</p>
-                </div>
-            </section>
-        </div>
-
-        <!-- VIEW: AUTH -->
-        <div id="view-auth" class="view-section py-12 px-4">
-            <div class="max-w-md mx-auto bg-white p-8 rounded-3xl shadow-xl border border-slate-100">
-                <h2 id="auth-title" class="text-2xl font-bold text-center mb-6">Parent Portal Login</h2>
-                <div id="auth-error" class="hidden mb-4 p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100"></div>
-                
-                <form id="auth-form" class="space-y-4">
-                    <input type="email" id="auth-email" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500" placeholder="Email Address">
-                    <input type="password" id="auth-password" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500" placeholder="Password">
-                    <button type="submit" id="auth-submit-btn" class="w-full py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all flex justify-center items-center">
-                        <span id="auth-submit-text">Sign In</span>
-                        <div id="auth-spinner" class="spinner hidden ml-2"></div>
-                    </button>
-                </form>
-
-                <div class="text-center my-6 text-slate-400 text-xs font-bold uppercase tracking-widest">or</div>
-                
-                <button id="btn-google" class="w-full py-4 bg-white border border-slate-200 rounded-xl font-bold flex items-center justify-center gap-3 hover:bg-slate-50">
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" class="w-5" alt=""> Continue with Google
-                </button>
-
-                <p class="mt-6 text-center text-sm">
-                    <span id="auth-toggle-msg">Don't have an account?</span>
-                    <button id="auth-toggle-btn" class="text-blue-600 font-bold ml-1">Sign Up</button>
+        <!-- ================= LANDING VIEW ================= -->
+        <section id="view-landing" class="view-section active">
+            <!-- Hero -->
+            <div class="text-center py-16 md:py-24">
+                <span class="text-secondary font-bold tracking-wider uppercase text-sm mb-4 block">Expert English Communication</span>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-dark mb-6 leading-tight">
+                    Unlock Your Child's <br class="hidden md:block">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Global Potential</span>
+                </h1>
+                <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10">
+                    Mastering English through real-time interaction, confident speaking, and comprehensive learning with Atri Bhowmik.
                 </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button onclick="app.navigate('auth')" class="guest-only bg-primary text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-primaryHover hover:shadow-lg transition-all-smooth touch-target flex items-center justify-center gap-2">
+                        Get Started <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <button onclick="app.navigate('dashboard')" class="auth-required hidden bg-primary text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-primaryHover hover:shadow-lg transition-all-smooth touch-target flex items-center justify-center gap-2">
+                        Go to Dashboard <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <!-- VIEW: DASHBOARD -->
-        <div id="view-dashboard" class="view-section py-10 px-4 max-w-6xl mx-auto">
-            <div class="bg-white rounded-3xl p-8 border border-slate-200 mb-8 flex justify-between items-center flex-wrap gap-4">
+            <!-- Three Pillars -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+                <div class="glass-card p-8 rounded-3xl text-center hover:-translate-y-2 transition-all-smooth">
+                    <div class="w-16 h-16 bg-blue-100 text-primary rounded-2xl flex items-center justify-center text-2xl mx-auto mb-6">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-dark">Comprehensive Learning</h3>
+                    <p class="text-slate-600">Building a strong foundation in grammar, vocabulary, and sentence structuring for flawless communication.</p>
+                </div>
+                <div class="glass-card p-8 rounded-3xl text-center hover:-translate-y-2 transition-all-smooth">
+                    <div class="w-16 h-16 bg-yellow-100 text-secondary rounded-2xl flex items-center justify-center text-2xl mx-auto mb-6">
+                        <i class="fa-solid fa-microphone-lines"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-dark">Confident Speaking</h3>
+                    <p class="text-slate-600">Eradicating hesitation through targeted pronunciation exercises and active speaking drills.</p>
+                </div>
+                <div class="glass-card p-8 rounded-3xl text-center hover:-translate-y-2 transition-all-smooth">
+                    <div class="w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-6">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-dark">Real-world Interaction</h3>
+                    <p class="text-slate-600">Practical application of language skills to prepare your child for real-time global interactions.</p>
+                </div>
+            </div>
+
+            <!-- About Atri -->
+            <div class="glass-card rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-10 mb-10">
+                <div class="w-32 h-32 md:w-48 md:h-48 bg-gradient-to-br from-primary to-secondary rounded-full flex-shrink-0 flex items-center justify-center text-white text-5xl shadow-xl">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
                 <div>
-                    <h1 class="text-3xl font-bold">Parent Dashboard</h1>
-                    <p id="user-display" class="text-slate-500"></p>
-                </div>
-                <button onclick="navigate('contact')" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold">Contact Atri</button>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-blue-900 text-white p-8 rounded-3xl">
-                    <h3 class="text-xl font-bold mb-4">Curriculum Overview</h3>
-                    <ul class="space-y-3">
-                        <li class="flex items-center"><i class="fas fa-check-circle mr-3 text-blue-400"></i> Phonics & Vocabulary</li>
-                        <li class="flex items-center"><i class="fas fa-check-circle mr-3 text-blue-400"></i> Sentence Structuring</li>
-                        <li class="flex items-center"><i class="fas fa-check-circle mr-3 text-blue-400"></i> Global Interaction Skills</li>
-                    </ul>
-                </div>
-                <div class="bg-white p-8 border border-slate-200 rounded-3xl">
-                    <h3 class="text-xl font-bold mb-4">Atri Bhowmik</h3>
-                    <p class="text-slate-600 italic">"Empowering children with the voice to speak their minds."</p>
-                    <p class="mt-4 font-bold text-blue-600">bhowmikatri225@gmail.com</p>
+                    <h2 class="text-3xl font-bold text-dark mb-4">About Atri Bhowmik</h2>
+                    <p class="text-slate-600 text-lg leading-relaxed mb-4">
+                        With a deep passion for child education and language development, Atri Bhowmik specializes in transforming hesitant learners into confident, fluent English speakers. 
+                    </p>
+                    <p class="text-slate-600 text-lg leading-relaxed">
+                        The methodology goes beyond textbooks, focusing on psychological comfort, interactive storytelling, and practical conversational skills that children actually enjoy.
+                    </p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- VIEW: CONTACT -->
-        <div id="view-contact" class="view-section py-10 px-4 max-w-4xl mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-8">Direct Contact Portal</h2>
-            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
-                <div id="contact-success" class="hidden text-center py-10">
-                    <i class="fas fa-check-circle text-5xl text-green-500 mb-4"></i>
-                    <h3 class="text-2xl font-bold mb-2">Message Sent!</h3>
-                    <p>Atri will get back to you soon.</p>
-                </div>
-                <form id="contact-form" class="space-y-4">
-                    <div class="grid grid-cols-2 gap-4">
-                        <input type="text" id="c-parent" placeholder="Your Name" required class="p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none">
-                        <input type="text" id="c-child" placeholder="Child's Name" required class="p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+        <!-- ================= AUTH VIEW ================= -->
+        <section id="view-auth" class="view-section">
+            <div class="max-w-md mx-auto mt-10">
+                <div class="glass-card rounded-3xl p-8 shadow-xl">
+                    <div class="text-center mb-8">
+                        <h2 id="auth-title" class="text-3xl font-bold text-dark mb-2">Welcome Back</h2>
+                        <p id="auth-subtitle" class="text-slate-500">Log in to access the parent portal.</p>
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <input type="number" id="c-age" placeholder="Child's Age" required class="p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none">
-                        <select id="c-level" class="p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none">
-                            <option>Beginner</option>
-                            <option>Intermediate</option>
-                            <option>Advanced</option>
-                        </select>
+
+                    <div id="auth-error" class="hidden bg-red-100 text-red-700 p-3 rounded-xl mb-6 text-sm text-center"></div>
+
+                    <form id="auth-form" class="flex flex-col gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
+                            <input type="email" id="auth-email" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all touch-target" placeholder="parent@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
+                            <input type="password" id="auth-password" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all touch-target" placeholder="••••••••">
+                        </div>
+                        <button type="submit" id="auth-submit-btn" class="w-full bg-primary text-white font-bold rounded-xl py-3 mt-2 hover:bg-primaryHover transition-all shadow-md touch-target flex justify-center items-center gap-2">
+                            <span>Log In</span>
+                        </button>
+                    </form>
+
+                    <div class="mt-6 flex items-center justify-center gap-4">
+                        <div class="h-px bg-slate-300 flex-grow"></div>
+                        <span class="text-sm text-slate-400">OR</span>
+                        <div class="h-px bg-slate-300 flex-grow"></div>
                     </div>
-                    <textarea id="c-msg" placeholder="Tell us about your child's goals..." required rows="4" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none"></textarea>
-                    
-                    <button type="submit" id="c-btn" class="w-full py-4 bg-blue-600 text-white rounded-xl font-bold">Send Secure Inquiry</button>
-                    
-                    <a href="mailto:bhowmikatri225@gmail.com" class="block w-full text-center py-4 bg-slate-100 text-slate-700 rounded-xl font-bold">
-                        <i class="fas fa-envelope mr-2"></i> Open Mail App (bhowmikatri225@gmail.com)
-                    </a>
-                </form>
+
+                    <button onclick="app.googleSignIn()" class="w-full mt-6 bg-white border border-slate-300 text-slate-700 font-bold rounded-xl py-3 hover:bg-slate-50 transition-all shadow-sm touch-target flex items-center justify-center gap-3">
+                        <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5">
+                        Sign in with Google
+                    </button>
+
+                    <div class="mt-8 text-center text-sm text-slate-600">
+                        <span id="auth-toggle-text">Don't have an account?</span>
+                        <button onclick="app.toggleAuthMode()" class="text-primary font-bold hover:underline ml-1 touch-target px-2 py-1">
+                            <span id="auth-toggle-btn">Sign Up</span>
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
-    </main>
+        </section>
 
-    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm">
-        <p>© 2026 Atri Bhowmik English Academy. All rights reserved.</p>
-    </footer>
+        <!-- ================= DASHBOARD VIEW ================= -->
+        <section id="view-dashboard" class="view-section">
+            <div class="mb-10">
+                <h1 class="text-3xl md:text-4xl font-bold text-dark mb-2">Parent Dashboard</h1>
+                <p class="text-slate-600 text-lg">Welcome, <span id="user-display-name" class="font-semibold text-primary">Parent</span>. Manage your child's learning journey.</p>
+            </div>
 
-    <!-- Firebase Scripts -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Left Column: Offerings -->
+                <div class="lg:col-span-1 flex flex-col gap-6">
+                    <div class="glass-card rounded-3xl p-6">
+                        <h3 class="text-xl font-bold text-dark mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-star text-secondary"></i> Program Details
+                        </h3>
+                        <ul class="space-y-4 text-slate-600">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check-circle text-green-500 mt-1"></i>
+                                <span><strong>1-on-1 Sessions:</strong> Personalized attention focusing on specific weak points.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check-circle text-green-500 mt-1"></i>
+                                <span><strong>Interactive Modules:</strong> Gamified learning to keep children engaged.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check-circle text-green-500 mt-1"></i>
+                                <span><strong>Progress Tracking:</strong> Monthly reports on vocabulary and fluency improvements.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-card rounded-3xl p-6 bg-blue-50/50 border-blue-100">
+                        <h3 class="text-lg font-bold text-dark mb-2">Direct Contact Info</h3>
+                        <p class="text-slate-600 mb-4 text-sm">Prefer direct email? Reach out anytime.</p>
+                        <a href="mailto:bhowmikatri225@gmail.com" class="flex items-center gap-3 text-primary font-medium hover:underline touch-target">
+                            <i class="fa-solid fa-envelope text-xl"></i>
+                            bhowmikatri225@gmail.com
+                        </a>
+                    </div>
+                </div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyC9CzzbpuRH-2KLbVjeNtf6EhxDZBztpwo",
-            authDomain: "atri-english-academy.firebaseapp.com",
-            projectId: "atri-english-academy",
-            storageBucket: "atri-english-academy.firebasestorage.app",
-            messagingSenderId: "2956038417",
-            appId: "1:2956038417:web:75bfa6ce7f7654039bbcb0"
-        };
+                <!-- Right Column: Contact Portal -->
+                <div class="lg:col-span-2">
+                    <div class="glass-card rounded-3xl p-6 md:p-8">
+                        <h2 class="text-2xl font-bold text-dark mb-2">Enrollment & Inquiry Portal</h2>
+                        <p class="text-slate-500 mb-6">Send details about your child to schedule an assessment or ask questions.</p>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const appId = "atri-english-academy-portal";
+                        <div id="form-success" class="hidden bg-green-100 text-green-800 p-4 rounded-xl mb-6 flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-xl"></i>
+                            <span>Your inquiry has been saved successfully! Atri will contact you soon.</span>
+                        </div>
 
-        // UI Logic
-        let user = null;
-        let isLogin = true;
+                        <form id="contact-form" class="space-y-5">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Parent/Guardian Name *</label>
+                                    <input type="text" id="parent-name" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary outline-none touch-target">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Child's Name *</label>
+                                    <input type="text" id="child-name" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary outline-none touch-target">
+                                </div>
+                            </div>
 
-        window.navigate = (view) => {
-            if ((view === 'dashboard' || view === 'contact') && !user) view = 'auth';
-            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
-            document.getElementById(`view-${view}`).classList.add('active');
-            updateNav();
-            window.scrollTo(0, 0);
-        };
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Child's Age *</label>
+                                    <input type="number" id="child-age" min="3" max="18" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary outline-none touch-target">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Current English Level</label>
+                                    <select id="english-level" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary outline-none touch-target bg-white">
+                                        <option value="Beginner">Beginner (Knows few words)</option>
+                                        <option value="Intermediate">Intermediate (Can form basic sentences)</option>
+                                        <option value="Advanced">Advanced (Needs fluency/accent training)</option>
+                                    </select>
+                                </div>
+                            </div>
 
-        const updateNav = () => {
-            const nav = document.getElementById('nav-desktop');
-            const mobile = document.getElementById('mobile-menu');
-            const links = user ? 
-                ['dashboard', 'contact'] : ['home'];
-            
-            const html = links.map(l => `<button onclick="navigate('${l}')" class="font-bold text-sm capitalize">${l}</button>`).join('');
-            const logoutBtn = user ? `<button id="do-logout" class="text-red-500 font-bold text-sm">Sign Out</button>` : `<button onclick="navigate('auth')" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-sm">Login</button>`;
-            
-            nav.innerHTML = html + logoutBtn;
-            mobile.innerHTML = `<div class="flex flex-col gap-4">${html + logoutBtn}</div>`;
-            mobile.classList.add('hidden');
-
-            if (user) {
-                document.getElementById('do-logout')?.addEventListener('click', () => signOut(auth));
-                document.getElementById('user-display').textContent = `Parent: ${user.email}`;
-            }
-        };
-
-        // Auth Toggling
-        document.getElementById('auth-toggle-btn').addEventListener('click', () => {
-            isLogin = !isLogin;
-            document.getElementById('auth-title').textContent = isLogin ? 'Parent Portal Login' : 'Create Parent Account';
-            document.getElementById('auth-submit-text').textContent = isLogin ? 'Sign In' : 'Sign Up';
-            document.getElementById('auth-toggle-msg').textContent = isLogin ? "Don't have an account?" : "Already have an account?";
-            document.getElementById('auth-toggle-btn').textContent = isLogin ? 'Sign Up' : 'Log In';
-        });
-
-        // Email Auth
-        document.getElementById('auth-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('auth-email').value;
-            const pass = document.getElementById('auth-password').value;
-            const errDiv = document.getElementById('auth-error');
-            
-            errDiv.classList.add('hidden');
-            document.getElementById('auth-spinner').classList.remove('hidden');
-
-            try {
-                if (isLogin) await signInWithEmailAndPassword(auth, email, pass);
-                else await createUserWithEmailAndPassword(auth, email, pass);
-            } catch (err) {
-                errDiv.textContent = err.message;
-                errDiv.classList.remove('hidden');
-            } finally {
-                document.getElementById('auth-spinner').classList.add('hidden');
-            }
-        });
-
-        // Google Auth
-        document.getElementById('btn-google').addEventListener('click', async () => {
-            try {
-                const provider = new GoogleAuthProvider();
-                await signInWithPopup(auth, provider);
-            } catch (err) {
-                console.error(err);
-            }
-        });
-
-        // Contact Form
-        document.getElementById('contact-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!user) return;
-            const data = {
-                parent: document.getElementById('c-parent').value,
-                child: document.getElementById('c-child').value,
-                age: document.getElementById('c-age').value,
-                level: document.getElementById('c-level').value,
-                msg: document.getElementById('c-msg').value,
-                timestamp: serverTimestamp(),
-                userId: user.uid
-            };
-
-            try {
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'inquiries'), data);
-                document.getElementById('contact-form').classList.add('hidden');
-                document.getElementById('contact-success').classList.remove('hidden');
-            } catch (err) {
-                alert("Error sending message.");
-            }
-        });
-
-        // Mobile Menu Button
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
-
-        // Auth Observer
-        onAuthStateChanged(auth, (u) => {
-            user = u;
-            document.getElementById('global-loader').classList.add('opacity-0');
-            setTimeout(() => document.getElementById('global-loader').classList.add('hidden'), 300);
-            
-            if (u) navigate('dashboard');
-            else navigate('home');
-            updateNav();
-        });
-
-    </script>
-</body>
-</html>
-
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Message / Specific Goals *</label>
+                                <textarea 
